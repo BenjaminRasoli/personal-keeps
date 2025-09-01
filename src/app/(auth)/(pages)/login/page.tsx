@@ -1,11 +1,14 @@
 "use client";
 import { auth } from "@/app/config/FireBaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -13,6 +16,7 @@ function Page() {
       login();
       setEmail("");
       setPassword("");
+      router.push("/");
     } catch {
       console.error("Login failed");
     }

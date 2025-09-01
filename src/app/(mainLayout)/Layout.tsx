@@ -1,15 +1,26 @@
-import "../globals.css";
+"use client";
 
-export default function RootLayout({
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useUser } from "../context/AuthContext";
+
+export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
-      <div className="flex flex-col">
-        <main className="flex-1 overflow-y-auto">{children}</main>
-      </div>
-    </div>
-  );
+  const user = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user === null) {
+      router.push("/login");
+    }
+  }, [user, router]);
+
+  if (user === undefined || user === null) {
+    return <div>Loading...</div>;
+  }
+
+  return <>{children}</>;
 }
