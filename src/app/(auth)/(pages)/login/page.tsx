@@ -29,7 +29,6 @@ function Page() {
         email,
         password
       );
-      localStorage.setItem("user", JSON.stringify(userCredential.user));
     } catch {
       console.error("Login failed");
     }
