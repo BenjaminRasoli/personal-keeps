@@ -1,4 +1,6 @@
 "use client";
+import { auth } from "@/app/config/FireBaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 
 function Page() {
@@ -7,10 +9,26 @@ function Page() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    setEmail("");
-    setPassword("");
+    try {
+      login();
+      setEmail("");
+      setPassword("");
+    } catch {
+      console.error("Login failed");
+    }
+  };
+
+  const login = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      localStorage.setItem("user", JSON.stringify(userCredential.user));
+    } catch {
+      console.error("Login failed");
+    }
   };
 
   return (
@@ -26,7 +44,7 @@ function Page() {
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-            type="password"
+            type="text"
             placeholder="Password"
             className="rounded border px-3 py-2"
             value={password}
