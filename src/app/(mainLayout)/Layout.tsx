@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "../context/AuthContext";
+import Navbar from "../components/Navbar";
 
 export default function MainLayout({
   children,
@@ -22,5 +23,10 @@ export default function MainLayout({
     return <div>Loading...</div>;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  );
 }
