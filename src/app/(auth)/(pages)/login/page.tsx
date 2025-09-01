@@ -7,54 +7,72 @@ import { useState } from "react";
 function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      login();
-      setEmail("");
-      setPassword("");
-    } catch {
-      console.error("Login failed");
-    } finally {
-      router.push("/");
-    }
-  };
+    setLoading(true);
+    setError("");
 
-  const login = async () => {
     try {
+      if (!email || !password) {
+        setError("Please fill in all fields");
+        setLoading(false);
+        return;
+      }
       await signInWithEmailAndPassword(auth, email, password);
-    } catch {
-      console.error("Login failed");
+      router.push("/");
+    } catch (err) {
+      console.error(err);
+      setError("Invalid email or password");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="flex w-72 flex-col items-center gap-4 rounded bg-white p-6 shadow-2xl">
-        <h1 className="text-2xl font-bold text-gray-800">Login</h1>
-        <form className="flex w-full flex-col gap-3 " onSubmit={handleSubmit}>
+    <div className="flex h-screen items-center justify-center bg-background">
+      <div className="flex w-full max-w-md flex-col items-center gap-6 rounded-lg bg-surface p-8 shadow-lg">
+        <h1 className="text-3xl font-bold text-text">Welcome Back</h1>
+        <p className="text-muted text-sm text-center">
+          Sign in to your account to continue
+        </p>
+
+        <form
+          noValidate
+          className="flex w-full flex-col gap-4"
+          onSubmit={handleSubmit}
+        >
+          {error && (
+            <div className="rounded bg-danger/20 p-2 text-danger text-sm text-center">
+              {error}
+            </div>
+          )}
           <input
-            type="text"
-            placeholder="email"
-            className="rounded border px-3 py-2"
+            type="email"
+            placeholder="Email"
+            className="rounded border border-muted px-4 py-2 focus:border-primary focus:ring focus:ring-primary/30 outline-none"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
-            type="text"
+            type="password"
             placeholder="Password"
-            className="rounded border px-3 py-2"
+            className="rounded border border-muted px-4 py-2 focus:border-primary focus:ring focus:ring-primary/30 outline-none"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <button
             type="submit"
-            className="rounded bg-blue-600 py-2 text-white hover:bg-blue-700"
+            className="rounded bg-primary py-2 text-surface font-semibold shadow hover:bg-accent transition-colors disabled:opacity-50"
+            disabled={loading}
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>
