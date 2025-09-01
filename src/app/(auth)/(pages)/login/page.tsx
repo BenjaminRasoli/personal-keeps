@@ -16,19 +16,16 @@ function Page() {
       login();
       setEmail("");
       setPassword("");
-      router.push("/");
     } catch {
       console.error("Login failed");
+    } finally {
+      router.push("/");
     }
   };
 
   const login = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await signInWithEmailAndPassword(auth, email, password);
     } catch {
       console.error("Login failed");
     }

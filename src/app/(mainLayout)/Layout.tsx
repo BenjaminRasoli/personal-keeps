@@ -9,16 +9,16 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = useUser();
+  const { user, loading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (user === null) {
+    if (!loading && user === null) {
       router.push("/login");
     }
-  }, [user, router]);
+  }, [user, loading, router]);
 
-  if (user === undefined || user === null) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
