@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useUser } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
-import { sign } from "crypto";
 import { auth } from "../config/FireBaseConfig";
 
 function Navbar() {
@@ -12,12 +11,12 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-surface shadow-md">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <nav className="border-b-2 border-gray-300">
+      <div className="mx-auto  px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex-shrink-0">
-            <Link href="/" className="text-primary text-2xl font-bold">
-              MyApp
+            <Link href="/" className="text-surface text-2xl font-bold">
+              Home
             </Link>
           </div>
 
