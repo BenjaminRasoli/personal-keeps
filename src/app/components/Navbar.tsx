@@ -1,11 +1,8 @@
 import Link from "next/link";
-import { useUser } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/FireBaseConfig";
 
 function Navbar() {
-  const { user } = useUser();
-
   const handleSignOut = () => {
     signOut(auth);
   };
