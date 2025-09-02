@@ -272,7 +272,7 @@ function Page() {
 
               {form.type === "movie" &&
                 form.watchedAgain.map((w, i) => (
-                  <div key={i} className="flex gap-2 mb-2">
+                  <div key={i} className="flex gap-2 mb-2 items-center">
                     <input
                       type="date"
                       value={w.start}
@@ -290,6 +290,20 @@ function Page() {
                       }
                       className="border px-3 py-2 rounded"
                     />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((prev) => ({
+                          ...prev,
+                          watchedAgain: prev.watchedAgain.filter(
+                            (_, idx) => idx !== i
+                          ),
+                        }))
+                      }
+                      className="bg-danger text-white px-2 py-1 rounded hover:opacity-70"
+                    >
+                      <MdDelete size={18} />
+                    </button>
                   </div>
                 ))}
 
