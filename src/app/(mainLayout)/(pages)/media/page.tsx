@@ -64,7 +64,6 @@ function Page() {
         }
       })
     );
-
     setMediaList(enhanced);
     setFilteredList(enhanced);
   };
@@ -79,10 +78,27 @@ function Page() {
       type: "movie",
       startDate: "",
       endDate: "",
-      watchedAgain: [],
+      watchedAgain: [{ start: "", end: "" }],
       seasons: [],
     });
     setEditing(null);
+  };
+
+  const addWatchedAgain = () => {
+    setForm((prev) => ({
+      ...prev,
+      watchedAgain: [...prev.watchedAgain, { start: "", end: "" }],
+    }));
+  };
+
+  const handleWatchedAgainChange = (
+    index: number,
+    key: "start" | "end",
+    value: string
+  ) => {
+    const newWatched = [...form.watchedAgain];
+    newWatched[index][key] = value;
+    setForm((prev) => ({ ...prev, watchedAgain: newWatched }));
   };
 
   const handleChange = (
@@ -125,10 +141,10 @@ function Page() {
 
     const newEntry = {
       ...form,
-      startDate: form.startDate
-        ? Timestamp.fromDate(new Date(form.startDate))
-        : null,
-      endDate: form.endDate ? Timestamp.fromDate(new Date(form.endDate)) : null,
+      watchedAgain: form.watchedAgain.map((w) => ({
+        start: w.start ? Timestamp.fromDate(new Date(w.start)) : null,
+        end: w.end ? Timestamp.fromDate(new Date(w.end)) : null,
+      })),
       seasons: form.seasons.map((s) => ({
         seasonNumber: s.seasonNumber,
         start: s.start ? Timestamp.fromDate(new Date(s.start)) : null,
@@ -163,13 +179,25 @@ function Page() {
       endDate: media.endDate
         ? media.endDate.toDate().toISOString().split("T")[0]
         : "",
-      seasons:
-        media.seasons?.map((s: any) => ({
-          seasonNumber: s.seasonNumber,
-          start: s.start ? s.start.toDate().toISOString().split("T")[0] : "",
-          end: s.end ? s.end.toDate().toISOString().split("T")[0] : "",
-        })) || [],
-      watchedAgain: [],
+      watchedAgain:
+        media.watchedAgain?.length > 0
+          ? media.watchedAgain.map((w: any) => ({
+              start: w.start
+                ? w.start.toDate().toISOString().split("T")[0]
+                : "",
+              end: w.end ? w.end.toDate().toISOString().split("T")[0] : "",
+            }))
+          : [
+              {
+                start: media.startDate
+                  ? media.startDate.toDate().toISOString().split("T")[0]
+                  : "",
+                end: media.endDate
+                  ? media.endDate.toDate().toISOString().split("T")[0]
+                  : "",
+              },
+            ],
+      seasons: media.seasons || [],
     });
     setEditing(media);
     setShowModal(true);
@@ -197,13 +225,24 @@ function Page() {
           + Add Media
         </button>
       </div>
-
-      <SearchBar
-        value={searchWord}
-        onChange={setSearchWord}
-        items={mediaList}
-        onFiltered={setFilteredList}
-      />
+      <div className="flex justify-between">
+        <SearchBar
+          value={searchWord}
+          onChange={setSearchWord}
+          items={mediaList}
+          onFiltered={setFilteredList}
+        />
+        <div className=" text-surface text-lg space-x-4">
+          <span>
+            Movies: {mediaList.filter((m) => m.type === "movie").length}
+          </span>
+          |{" "}
+          <span>
+            TV Shows: {mediaList.filter((m) => m.type === "show").length}
+          </span>
+          | <span>Total: {mediaList.length}</span>
+        </div>
+      </div>
 
       {showModal && (
         <div className="fixed inset-0 flex items-start justify-center pt-16 pb-16 bg-black/50 overflow-auto z-50">
@@ -231,23 +270,51 @@ function Page() {
                 <option value="show">Show</option>
               </select>
 
+              {form.type === "movie" &&
+                form.watchedAgain.map((w, i) => (
+                  <div key={i} className="flex gap-2 mb-2 items-center">
+                    <input
+                      type="date"
+                      value={w.start}
+                      onChange={(e) =>
+                        handleWatchedAgainChange(i, "start", e.target.value)
+                      }
+                      className="border px-3 py-2 rounded"
+                      required
+                    />
+                    <input
+                      type="date"
+                      value={w.end}
+                      onChange={(e) =>
+                        handleWatchedAgainChange(i, "end", e.target.value)
+                      }
+                      className="border px-3 py-2 rounded"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((prev) => ({
+                          ...prev,
+                          watchedAgain: prev.watchedAgain.filter(
+                            (_, idx) => idx !== i
+                          ),
+                        }))
+                      }
+                      className="bg-danger text-white px-2 py-1 rounded hover:opacity-70"
+                    >
+                      <MdDelete size={18} />
+                    </button>
+                  </div>
+                ))}
+
               {form.type === "movie" && (
-                <>
-                  <input
-                    type="date"
-                    name="startDate"
-                    value={form.startDate}
-                    onChange={handleChange}
-                    className="border px-3 py-2 rounded"
-                  />
-                  <input
-                    type="date"
-                    name="endDate"
-                    value={form.endDate}
-                    onChange={handleChange}
-                    className="border px-3 py-2 rounded"
-                  />
-                </>
+                <button
+                  type="button"
+                  onClick={addWatchedAgain}
+                  className="bg-primary hover:bg-accent text-white px-2 py-1 rounded mb-2"
+                >
+                  Add Another Date
+                </button>
               )}
 
               {form.type === "show" &&
@@ -370,13 +437,15 @@ function Page() {
                 {media.title || "Untitled"}
               </h3>
 
-              {media.type === "movie" && media.startDate && (
-                <>
-                  {media.startDate.toDate().toLocaleDateString()}
-                  {media.endDate
-                    ? ` - ${media.endDate.toDate().toLocaleDateString()}`
-                    : ""}
-                </>
+              {media.type === "movie" && (
+                <div className="text-sm">
+                  {media.watchedAgain?.map((w: any, i: number) => (
+                    <div key={i}>
+                      {w.start?.toDate().toLocaleDateString()}
+                      {w.end ? ` - ${w.end.toDate().toLocaleDateString()}` : ""}
+                    </div>
+                  ))}
+                </div>
               )}
 
               {media.type === "show" && (
