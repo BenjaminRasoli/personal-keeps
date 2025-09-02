@@ -15,6 +15,7 @@ import { MediaForm, MediaFormWithId } from "@/app/Types/MediaForm";
 import { MdDelete, MdEdit } from "react-icons/md";
 import SearchBar from "@/app/components/SearchBar";
 import { MediaItem } from "@/app/Types/MediaItem";
+import Image from "next/image";
 
 function Page() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -410,10 +411,12 @@ function Page() {
             className="relative border rounded-lg shadow h-100 overflow-hidden flex flex-col justify-end"
           >
             {media.image && (
-              <img
+              <Image
                 src={`https://image.tmdb.org/t/p/w500${media.image}`}
                 alt={media.title}
                 className="w-full h-full object-cover object-center"
+                width={200}
+                height={300}
               />
             )}
 

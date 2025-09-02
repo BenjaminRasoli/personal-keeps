@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     const res = await fetch(url);
     const data = await res.json();
     return NextResponse.json(data);
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch TMDB data" },
       { status: 500 }
