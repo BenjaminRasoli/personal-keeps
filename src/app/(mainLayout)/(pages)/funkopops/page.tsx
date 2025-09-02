@@ -14,6 +14,7 @@ import { db } from "@/app/config/FireBaseConfig";
 import { defaultForm, FunkoForm, FunkoPop } from "@/app/Types/FunkoPopTypes";
 import { MdDelete, MdEdit } from "react-icons/md";
 import FunkoInput from "@/app/components/FunkoPopInput";
+import SearchBar from "@/app/components/SearchBar";
 
 function Page() {
   const [showModal, setShowModal] = useState(false);
@@ -22,11 +23,14 @@ function Page() {
   const [form, setForm] = useState<FunkoForm>(defaultForm);
   const [funkoPops, setFunkoPops] = useState<FunkoPop[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [searchWord, setSearchWord] = useState<string>("");
+  const [filteredList, setFilteredList] = useState<FunkoPop[]>([]);
 
   const fetchFunkos = async () => {
     const snapshot = await getDocs(collection(db, "funkopops"));
     const data = snapshot.docs.map((doc) => ({
       id: doc.id,
+      title: doc.data().name,
       ...doc.data(),
     })) as FunkoPop[];
     setFunkoPops(data);
@@ -111,6 +115,13 @@ function Page() {
         </button>
       </div>
 
+      <SearchBar
+        value={searchWord}
+        onChange={setSearchWord}
+        items={funkoPops}
+        onFiltered={setFilteredList}
+      />
+
       {showModal && (
         <div className="fixed inset-0 flex items-start justify-center pt-16 pb-16 bg-black/50 overflow-auto">
           <div className="bg-white p-6 rounded shadow max-w-md w-full max-h-[80vh] overflow-y-auto">
@@ -151,7 +162,7 @@ function Page() {
             <h2 className="text-lg font-bold mb-4">Confirm Delete</h2>
             <p className="mb-4">
               Are you sure you want to delete{" "}
-              <strong>{deleteTarget.name}</strong>?
+              <strong>{deleteTarget.title}</strong>?
             </p>
             <div className="flex justify-end gap-3">
               <button
@@ -177,7 +188,7 @@ function Page() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {funkoPops.map((pop) => {
+        {filteredList.map((pop) => {
           const profit =
             pop.soldPrice !== undefined && pop.soldPrice !== null
               ? pop.soldPrice - pop.boughtPrice
@@ -191,11 +202,11 @@ function Page() {
               {pop.imageUrl && (
                 <img
                   src={pop.imageUrl}
-                  alt={pop.name}
+                  alt={pop.title}
                   className="rounded mb-4 max-h-48 object-contain w-full"
                 />
               )}
-              <h3 className="font-bold text-lg mb-2">{pop.name}</h3>
+              <h3 className="font-bold text-lg mb-2">{pop.title}</h3>
 
               <div className="w-full border-t border-gray-200 pt-2 space-y-1 text-sm">
                 <div className="flex justify-between">
@@ -250,7 +261,7 @@ function Page() {
                   onClick={() => {
                     setEditing(pop);
                     setForm({
-                      name: pop.name,
+                      name: pop.title,
                       boughtPrice: pop.boughtPrice?.toString() || "",
                       soldPrice: pop.soldPrice?.toString() || "",
                       dateBought: pop.dateBought
