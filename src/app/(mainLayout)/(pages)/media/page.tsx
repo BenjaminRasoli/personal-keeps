@@ -11,8 +11,10 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { db } from "@/app/config/FireBaseConfig";
-import { MediaForm } from "@/app/Types/MediaForm";
+import { MediaForm, MediaFormWithId } from "@/app/Types/MediaForm";
 import { MdDelete, MdEdit } from "react-icons/md";
+import SearchBar from "@/app/components/SearchBar";
+import { MediaItem } from "@/app/Types/MediaItem";
 
 function Page() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -32,17 +34,19 @@ function Page() {
     watchedAgain: [],
     seasons: [],
   });
-  const [mediaList, setMediaList] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [mediaList, setMediaList] = useState<MediaItem[]>([]);
+  const [filteredList, setFilteredList] = useState<MediaItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchWord, setSearchWord] = useState<string>("");
 
   const fetchMedia = async () => {
     const snapshot = await getDocs(collection(db, "media"));
-    const data = snapshot.docs.map((doc) => ({
+    const data: MediaFormWithId[] = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...(doc.data() as MediaForm),
     }));
 
-    const enhanced = await Promise.all(
+    const enhanced: any = await Promise.all(
       data.map(async (item) => {
         try {
           const res = await fetch(
@@ -51,16 +55,18 @@ function Page() {
           const json = await res.json();
           return {
             ...item,
+            id: item.id,
             title: json.title || json.name,
             image: json.poster_path,
           };
         } catch {
-          return { ...item, title: item.tmdbId, image: "" };
+          return { ...item, id: item.id, title: item.tmdbId, image: "" };
         }
       })
     );
 
     setMediaList(enhanced);
+    setFilteredList(enhanced);
   };
 
   useEffect(() => {
@@ -191,6 +197,13 @@ function Page() {
           + Add Media
         </button>
       </div>
+
+      <SearchBar
+        value={searchWord}
+        onChange={setSearchWord}
+        items={mediaList}
+        onFiltered={setFilteredList}
+      />
 
       {showModal && (
         <div className="fixed inset-0 flex items-start justify-center pt-16 pb-16 bg-black/50 overflow-auto z-50">
@@ -324,7 +337,7 @@ function Page() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {mediaList.map((media) => (
+        {filteredList.map((media) => (
           <div
             key={media.id}
             className="relative border rounded-lg shadow h-100 overflow-hidden flex flex-col justify-end"

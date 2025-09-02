@@ -4,7 +4,7 @@ export type TransportType = "drive" | "shipping" | "";
 
 export interface FunkoPop {
   id?: string;
-  name: string;
+  title: string;
   boughtPrice: number;
   soldPrice?: number | null;
   dateBought?: Timestamp | null;
