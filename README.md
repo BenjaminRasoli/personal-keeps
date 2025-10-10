@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Collections
 
-## Getting Started
+Personal Collections is a web app to manage and store your personal collections effortlessly. Built with **Next.js**, **Tailwind CSS**, and **Firebase**, it offers an intuitive interface to add, edit, and track your items, complete with search and detailed stats. Perfect for collectors who want a simple yet powerful tool to organize their prized possessions.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Live Demo
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[*https://personalkeeps.vercel.app*](https://personalkeeps.vercel.app/login)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- 🗃 **Collection Management**: Add, edit, and delete collection items with detailed fields like prices, dates, images, and notes.
+- 🔍 **Search**: Quickly find items in your collection with a dynamic search bar.
+- 📊 **Stats Overview**: Track total items, sold vs active count, total spent, earned, and profit at a glance.
+- 🛠 **Firebase Powered**: Real-time data syncing and storage using Firebase Firestore.
+- 📱 **Responsive Design**: Fully responsive UI built with Tailwind CSS to work smoothly on all screen sizes.
+- 💡 **Modal Forms**: Clean modal interface for adding and editing items without leaving the page.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend**: Next.js, Tailwind
+- **Backend**: Firebase Firestore
+---

@@ -1,10 +1,8 @@
-"use client";
+import { CollectionInputProps } from "../Types/CollectionTypes";
 
-import { FunkoInputProps } from "../Types/FunkoPopTypes";
-
-function FunkoInput({ form, onChange }: FunkoInputProps) {
+function CollectionInput({ form, onChange }: CollectionInputProps) {
   return (
-    <>
+    <div className="flex flex-col gap-3">
       <input
         name="name"
         type="text"
@@ -12,7 +10,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
         value={form.name}
         onChange={onChange}
         required
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded w-full"
       />
       <input
         name="boughtPrice"
@@ -20,14 +18,14 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
         placeholder="Bought Price (kr)"
         value={form.boughtPrice}
         onChange={onChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded w-full"
       />
       <input
         name="dateBought"
         type="date"
         value={form.dateBought}
         onChange={onChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded w-full"
       />
       <input
         name="marketBought"
@@ -35,7 +33,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
         placeholder="Market Bought"
         value={form.marketBought}
         onChange={onChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded w-full"
       />
 
       <label className="flex items-center gap-2 mt-2">
@@ -56,14 +54,14 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
             placeholder="Sold Price (kr)"
             value={form.soldPrice}
             onChange={onChange}
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded w-full"
           />
           <input
             name="dateSold"
             type="date"
             value={form.dateSold}
             onChange={onChange}
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded w-full"
           />
           <input
             name="marketSold"
@@ -71,13 +69,13 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
             placeholder="Market Sold"
             value={form.marketSold}
             onChange={onChange}
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded w-full"
           />
         </>
       )}
 
       <div className="flex gap-4 mt-2">
-        <label>
+        <label className="flex items-center gap-1">
           <input
             type="radio"
             name="transport"
@@ -87,7 +85,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
           />
           Drove
         </label>
-        <label>
+        <label className="flex items-center gap-1">
           <input
             type="radio"
             name="transport"
@@ -107,7 +105,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
             placeholder="Petrol cost (kr)"
             value={form.petrolCost}
             onChange={onChange}
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded w-full"
           />
           <input
             name="fromAddress"
@@ -115,7 +113,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
             placeholder="From address"
             value={form.fromAddress}
             onChange={onChange}
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded w-full"
           />
           <input
             name="toAddress"
@@ -123,7 +121,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
             placeholder="To address"
             value={form.toAddress}
             onChange={onChange}
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded w-full"
           />
         </>
       )}
@@ -135,7 +133,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
           placeholder="Shipping cost (kr)"
           value={form.petrolCost}
           onChange={onChange}
-          className="border px-3 py-2 rounded"
+          className="border px-3 py-2 rounded w-full"
         />
       )}
 
@@ -145,7 +143,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
         placeholder="Extra (voucher, etc.)"
         value={form.extra}
         onChange={onChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded w-full"
       />
       <input
         name="totalCost"
@@ -153,7 +151,7 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
         placeholder="Total cost (kr)"
         value={form.totalCost}
         onChange={onChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded w-full"
       />
       <input
         name="imageUrl"
@@ -161,10 +159,10 @@ function FunkoInput({ form, onChange }: FunkoInputProps) {
         placeholder="Image URL"
         value={form.imageUrl}
         onChange={onChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded w-full"
       />
-    </>
+    </div>
   );
 }
 
-export default FunkoInput;
+export default CollectionInput;
