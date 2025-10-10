@@ -35,7 +35,7 @@ function Page() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="flex w-full max-w-md flex-col items-center gap-6 rounded-lg bg-surface p-8 shadow-xl">
+      <div className="flex w-full max-w-md flex-col items-center gap-6 rounded-lg bg-surface p-8 m-5 shadow-xl">
         <h1 className="text-3xl font-bold text-text">Welcome Back</h1>
         <p className="text-muted text-sm text-center">
           Sign in to your account to continue

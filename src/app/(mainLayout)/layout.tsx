@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useUser } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import { MoonLoader } from "react-spinners";
-import Footer from "../components/Footer";
 import { SetBodyClass } from "../components/SetBodyClass";
 
 export default function MainLayout({
@@ -30,18 +29,18 @@ export default function MainLayout({
   }
 
   return (
-    <>
+    <div className="relative h-screen w-screen overflow-hidden">
       <SetBodyClass className="bg-background" />
-      <div
-        className="min-h-screen min-w-full bg-cover bg-center bg-fixed"
-        style={{
-          backgroundImage: 'url("/backgroundImage.jpg")',
-        }}
-      >
+      <img
+        src="/backgroundImage.jpg"
+        alt="Background"
+        className="absolute inset-0 w-full h-full object-cover object-center -z-10"
+      />
+
+      <div className="relative z-10 h-full w-full flex flex-col">
         <Navbar />
-        {children}
-        <Footer />
+        <div className="flex-1 overflow-auto">{children}</div>
       </div>
-    </>
+    </div>
   );
 }

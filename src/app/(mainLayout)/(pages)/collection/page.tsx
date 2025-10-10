@@ -50,6 +50,18 @@ function Page() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showModal]);
+
   const totalItems = filteredList.length;
 
   const totalSpent = filteredList.reduce(
@@ -164,10 +176,12 @@ function Page() {
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-primary">Collection</h1>
+        <h1 className="text-lg font-bold bg-primary p-2 rounded-lg text-surface">
+          Collection
+        </h1>
         <button
           onClick={() => setShowModal(true)}
-          className="bg-primary hover:bg-secondary text-surface px-4 py-2 rounded"
+          className="bg-primary hover:bg-secondary text-surface text-lg px-4 py-2 rounded"
         >
           + Add
         </button>
@@ -202,8 +216,8 @@ function Page() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 flex items-start justify-center pt-16 pb-16 bg-black/50 overflow-hidden">
-          <div className="bg-white p-6 rounded shadow max-w-md w-full max-h-[80vh] overflow-y-auto">
+        <div className="fixed inset-0 flex items-start justify-center pt-18  pb-16 bg-black/50 overflow-hidden">
+          <div className="bg-white p-6 rounded shadow max-w-md w-full m-8 max-h-[80vh] overflow-y-auto">
             <h2 className="text-lg font-bold mb-4">
               {editing ? "Edit Funko Pop" : "Add Funko Pop"}
             </h2>

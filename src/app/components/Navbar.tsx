@@ -10,9 +10,9 @@ function Navbar() {
   const { user } = useUser();
 
   return (
-    <nav className="w-full bg-background border-b border-muted shadow-sm">
+    <nav className="w-full bg-background border-b pb-4 border-muted shadow-sm sticky top-0 z-20">
       <div className="max-w-7xl mx-auto px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between ">
           <Link
             href="/"
             className="text-primary text-2xl font-bold hover:text-secondary transition-colors"

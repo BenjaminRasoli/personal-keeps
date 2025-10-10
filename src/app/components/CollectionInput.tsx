@@ -2,7 +2,7 @@ import { CollectionInputProps } from "../Types/CollectionTypes";
 
 function CollectionInput({ form, onChange }: CollectionInputProps) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 m-4 sm:m-6">
       <input
         name="name"
         type="text"
@@ -18,15 +18,21 @@ function CollectionInput({ form, onChange }: CollectionInputProps) {
         placeholder="Bought Price (kr)"
         value={form.boughtPrice}
         onChange={onChange}
-        className="border px-3 py-2 rounded w-full"
+        className="border px-3 py-2 rounded"
       />
       <input
         name="dateBought"
-        type="date"
+        type={form.dateBought ? "date" : "text"}
+        placeholder="Date Bought"
         value={form.dateBought}
+        onFocus={(e) => (e.target.type = "date")}
+        onBlur={(e) => {
+          if (!form.dateBought) e.target.type = "text";
+        }}
         onChange={onChange}
         className="border px-3 py-2 rounded w-full"
       />
+
       <input
         name="marketBought"
         type="text"

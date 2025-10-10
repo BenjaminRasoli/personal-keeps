@@ -8,7 +8,7 @@ export default function LoginLayout({
   return (
     <>
       <SetBodyClass className="bg-gray-100" />
-      <div className="min-h-screen bg-gray-100">{children}</div>
+      <div>{children}</div>
     </>
   );
 }
