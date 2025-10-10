@@ -15,7 +15,6 @@ function SearchBar<T>({
       if (!item.title) return false;
       const titleLower = item.title.toLowerCase();
 
-      // Check if any of the words appear in the title
       return searchWords.every((word) => titleLower.includes(word));
     });
 

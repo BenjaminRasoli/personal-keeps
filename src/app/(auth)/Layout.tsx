@@ -1,7 +1,14 @@
+import { SetBodyClass } from "../components/SetBodyClass";
+
 export default function LoginLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return (
+    <>
+      <SetBodyClass className="bg-gray-100" />
+      <div className="min-h-screen bg-gray-100">{children}</div>
+    </>
+  );
 }

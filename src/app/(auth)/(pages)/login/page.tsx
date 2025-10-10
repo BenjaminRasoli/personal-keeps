@@ -34,8 +34,8 @@ function Page() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-background">
-      <div className="flex w-full max-w-md flex-col items-center gap-6 rounded-lg bg-surface p-8 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="flex w-full max-w-md flex-col items-center gap-6 rounded-lg bg-surface p-8 shadow-xl">
         <h1 className="text-3xl font-bold text-text">Welcome Back</h1>
         <p className="text-muted text-sm text-center">
           Sign in to your account to continue
@@ -54,7 +54,7 @@ function Page() {
           <input
             type="email"
             placeholder="Email"
-            className="rounded border border-muted px-4 py-2 focus:border-primary focus:ring focus:ring-primary/30 outline-none"
+            className="rounded border border-muted px-4 py-2 focus:border-black focus:ring outline-none"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -62,14 +62,14 @@ function Page() {
           <input
             type="password"
             placeholder="Password"
-            className="rounded border border-muted px-4 py-2 focus:border-primary focus:ring focus:ring-primary/30 outline-none"
+            className="rounded border border-muted px-4 py-2 focus:border-black focus:ring outline-none"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <button
             type="submit"
-            className="rounded bg-primary py-2 text-surface font-semibold shadow hover:bg-accent transition-colors disabled:opacity-50"
+            className="rounded bg-black py-2 text-surface font-semibold shadow hover:opacity-80 transition-colors disabled:opacity-50"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}

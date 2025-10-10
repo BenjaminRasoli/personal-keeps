@@ -1,10 +1,11 @@
 "use client";
-
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import { MoonLoader } from "react-spinners";
+import Footer from "../components/Footer";
+import { SetBodyClass } from "../components/SetBodyClass";
 
 export default function MainLayout({
   children,
@@ -30,8 +31,17 @@ export default function MainLayout({
 
   return (
     <>
-      <Navbar />
-      {children}
+      <SetBodyClass className="bg-background" />
+      <div
+        className="min-h-screen min-w-full bg-cover bg-center bg-fixed"
+        style={{
+          backgroundImage: 'url("/backgroundImage.jpg")',
+        }}
+      >
+        <Navbar />
+        {children}
+        <Footer />
+      </div>
     </>
   );
 }
