@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/FireBaseConfig";
+import { useUser } from "../context/AuthContext";
 
 function Navbar() {
   const handleSignOut = () => {
     signOut(auth);
   };
+  const { user } = useUser();
 
   return (
     <nav className="w-full bg-background border-b border-muted shadow-sm">
